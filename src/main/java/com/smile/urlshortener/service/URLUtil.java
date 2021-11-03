@@ -1,30 +1,41 @@
 package com.smile.urlshortener.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class URLUtil {
 
-    public static String getPath(String url){
-        final int SIZE = url.length();
-        int sliceIndex=-1;
-        int cnt=0;
-        for(int i=0;i<SIZE;i++){
-            if(url.charAt(i) == '/'){
-                cnt++;
-                if(cnt == 3){
-                    sliceIndex = i;
-                }
-            }
+    private static final String NEW_URL_PREFIX = "http://localhost:8080/";
+    private static final String BASECHAR
+        = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    /**
+     * Create short URL
+     */
+    public static String createShortURL(long savedId) {
+        String shortURL = toShortURL(savedId);
+        return NEW_URL_PREFIX+shortURL;
+    }
+
+    /**
+     * Convert savedId to base-62 encoded short URL
+     */
+    private static String toShortURL(long savedId) {
+        StringBuffer sb = new StringBuffer();
+
+        //convert digit -> base62
+        while(savedId>0){
+            int x = Long.valueOf(savedId%62).intValue();
+            sb.append(BASECHAR.charAt(x));
+            savedId /= 62;
         }
-        if(sliceIndex == -1 || sliceIndex == SIZE-1) //도메인만 있는 경우
-            return "";
-        return url.substring(sliceIndex, SIZE-1);
+        return sb.reverse().toString();
     }
 
-    // TODO : url의 path를 단축할 수 있는 메서드 작성
-    public static String getShortenPath(String path) {
 
-        return "";
-    }
+//    public static String toOriginalURL(long savdId) {
+//        return "";
+//    }
 }
