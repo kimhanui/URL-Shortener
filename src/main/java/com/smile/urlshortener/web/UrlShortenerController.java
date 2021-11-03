@@ -23,4 +23,11 @@ public class UrlShortenerController {
 
         return res;
     }
+
+    @GetMapping("/original")
+    public String original(@RequestParam String url) throws Exception{
+        log.info("short: " + url);
+        String res = urlShortenerService.findOriginalURL(url);
+        return res;
+    }
 }

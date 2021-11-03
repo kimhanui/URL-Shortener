@@ -15,14 +15,14 @@ public class URLEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String original;
-    private String shorten;
+    private String originalUrl;
+    private String shortUrl;
 
-    public URLEntity(String original) {
-        this.original = original;
+    public URLEntity(String originalUrl) {
+        this.originalUrl = originalUrl;
     }
 
     public void updateShortenUrl(String shorten) {
-        this.shorten = shorten;
+        this.shortUrl = shorten;
     }
 }

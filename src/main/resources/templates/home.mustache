@@ -6,6 +6,7 @@
 </head>
 <body>
 
+URL 줄이기
 <form action="/shorten" method="GET">
     <label>URL</label>
     <br>
@@ -14,7 +15,17 @@
     <button type="submit">submit</button>
 </form>
 
+원래의 URL 찾기
+<form action="/original" method="GET">
+    <label>URL</label>
+    <br>
+    <input type="text" name="url" placeholder="insert url in here.." required>
+    <br>
+    <button type="submit">submit</button>
+</form>
+
+
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<!---->
+<!--ajax-->

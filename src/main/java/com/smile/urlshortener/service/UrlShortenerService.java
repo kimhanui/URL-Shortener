@@ -25,11 +25,11 @@ public class UrlShortenerService {
      */
     @Transactional
     public String create(String originalUrl) {
-        Optional<URLEntity> urlEntity = urlEntityRepository.findByOriginal(originalUrl);
+        Optional<URLEntity> urlEntity = urlEntityRepository.findByOriginalUrl(originalUrl);
 
         if(urlEntity.isPresent()){ // 해당 shroten url 반환
             URLEntity target = urlEntity.get();
-            return target.getShorten();
+            return target.getShortUrl();
         }
         else{
             URLEntity target = new URLEntity(originalUrl);
@@ -44,5 +44,12 @@ public class UrlShortenerService {
             // short url 반환
             return shortUrl;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public String findOriginalURL(String shortUrl) throws NullPointerException{
+        URLEntity target = urlEntityRepository.findByShortUrl(shortUrl)
+                .orElseThrow(() -> new NullPointerException("Not Registered URL"));
+        return target.getOriginalUrl();
     }
 }

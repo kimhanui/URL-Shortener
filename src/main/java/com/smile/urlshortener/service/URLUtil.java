@@ -33,9 +33,4 @@ public class URLUtil {
         }
         return sb.reverse().toString();
     }
-
-
-//    public static String toOriginalURL(long savdId) {
-//        return "";
-//    }
 }
