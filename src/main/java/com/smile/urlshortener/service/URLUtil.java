@@ -14,7 +14,7 @@ public class URLUtil {
     /**
      * Create short URL
      */
-    public static String createShortURL(long savedId) {
+    public static String createShortURL(int savedId) {
         String shortURL = toShortURL(savedId);
         return NEW_URL_PREFIX+shortURL;
     }
@@ -22,7 +22,7 @@ public class URLUtil {
     /**
      * Convert savedId to base-62 encoded short URL
      */
-    private static String toShortURL(long savedId) {
+    private static String toShortURL(int savedId) {
         StringBuffer sb = new StringBuffer();
 
         //convert digit -> base62

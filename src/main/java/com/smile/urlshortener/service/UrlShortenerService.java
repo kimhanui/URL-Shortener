@@ -34,7 +34,7 @@ public class UrlShortenerService {
         else{
             URLEntity target = new URLEntity(originalUrl);
             // entity 저장
-            Long savedId = urlEntityRepository.save(target).getId();
+            Integer savedId = urlEntityRepository.save(target).getId();
             log.info("savedId: " + savedId);
             // id로 short url 생성
             String shortUrl = URLUtil.createShortURL(savedId);
