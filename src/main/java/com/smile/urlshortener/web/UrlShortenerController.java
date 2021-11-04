@@ -4,8 +4,13 @@ import com.smile.urlshortener.service.UrlShortenerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 @Slf4j
@@ -29,5 +34,14 @@ public class UrlShortenerController {
         log.info("short: " + url);
         String res = urlShortenerService.findOriginalURL(url);
         return res;
+    }
+
+
+    @GetMapping("/{shortenPath}")
+    public void redirect(HttpServletRequest request, HttpServletResponse response,  @PathVariable("shortenPath") String shortenPath) throws IOException {
+        log.info("request url: " + request.getRequestURL()+" shortenPath: " + shortenPath); // TODO "/" 일때 "/style.css"가 요청된다. (by <link>)
+        String res = urlShortenerService.findOriginalURL(request.getRequestURL().toString());
+        response.sendRedirect(res);
+        return;
     }
 }
