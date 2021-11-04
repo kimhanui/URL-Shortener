@@ -61,7 +61,10 @@
                 type: 'GET',
             }).done((data, textStatus, jqXHR) => {
                 $("#url-result-shorten").text(data);
-            })
+            }).fail(function(data, textStatus, errorThrown){
+                alert(data.responseJSON.message)
+                console.log(data.responseJSON.message);
+            });
         }
     });
     $("#url-button-original").on('click', function(event){
@@ -74,7 +77,10 @@
                 type: 'GET',
             }).done((data, textStatus, jqXHR) => {
                 $("#url-result-original").text(data);
-            })
+            }).fail(function(data, textStatus, errorThrown){
+                alert(data.responseJSON.message)
+                console.log(data.responseJSON.message);
+            });
         }
     });
 </script>
