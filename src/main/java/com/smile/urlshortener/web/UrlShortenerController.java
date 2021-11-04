@@ -39,7 +39,7 @@ public class UrlShortenerController {
 
     @GetMapping("/{shortenPath}")
     public void redirect(HttpServletRequest request, HttpServletResponse response,  @PathVariable("shortenPath") String shortenPath) throws IOException {
-        log.info("request url: " + request.getRequestURL()+" shortenPath: " + shortenPath); // TODO "/" 일때 "/style.css"가 요청된다. (by <link>)
+        log.info("request url: " + request.getRequestURL()+" shortenPath: " + shortenPath);
         String res = urlShortenerService.findOriginalURL(request.getRequestURL().toString());
         response.sendRedirect(res);
         return;
