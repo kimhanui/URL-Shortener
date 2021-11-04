@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.regex.PatternSyntaxException;
 
 @Slf4j
 @Service
@@ -25,6 +26,9 @@ public class UrlShortenerService {
      */
     @Transactional
     public String create(String originalUrl) {
+        if(isAlreadyConverted(originalUrl)== true)
+            throw new IllegalArgumentException("이미 변환된 url 입니다.");
+
         Optional<URLEntity> urlEntity = urlEntityRepository.findByOriginalUrl(originalUrl);
 
         if(urlEntity.isPresent()){ // 해당 shroten url 반환
@@ -48,8 +52,25 @@ public class UrlShortenerService {
 
     @Transactional(readOnly = true)
     public String findOriginalURL(String shortUrl) throws NullPointerException{
+        if(isAlreadyConverted(shortUrl)== false)
+            throw new IllegalArgumentException("현 사이트에서 변환되지 않은 url 입니다.");
         URLEntity target = urlEntityRepository.findByShortUrl(shortUrl)
-                .orElseThrow(() -> new NullPointerException("Not Registered URL"));
+                .orElseThrow(() -> new NullPointerException("현 사이트에서 변환되지 않은 url 입니다."));
         return target.getOriginalUrl();
+    }
+
+    /**
+     * check if given url is already converted or not
+     */
+    private boolean isAlreadyConverted(String url) {
+        String domain="";
+        try {
+            domain = url.split("/")[2];
+        }catch(ArrayIndexOutOfBoundsException e) { // http(https)로 시작하지 않는 url
+            domain = url.split("/")[0];
+        }
+
+        if(domain.equals("localhost:8080")) return true;
+        return false;
     }
 }

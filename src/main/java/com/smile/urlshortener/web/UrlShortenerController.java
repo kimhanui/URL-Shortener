@@ -21,7 +21,7 @@ public class UrlShortenerController {
     private final UrlShortenerService urlShortenerService;
 
     @GetMapping("/shorten")
-    public String shorten(@RequestParam String url) {
+    public String shorten(@RequestParam String url) throws Exception{
         log.info("original: " + url);
         String res = urlShortenerService.create(url);
         log.info("fake: " + res);
@@ -35,7 +35,6 @@ public class UrlShortenerController {
         String res = urlShortenerService.findOriginalURL(url);
         return res;
     }
-
 
     @GetMapping("/{shortenPath}")
     public void redirect(HttpServletRequest request, HttpServletResponse response,  @PathVariable("shortenPath") String shortenPath) throws IOException {
