@@ -3,29 +3,78 @@
 <head>
     <title>Url Shortener</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-URL 줄이기
+<p class="center">
+<h1>Shorten URL</h1>
 <form action="/shorten" method="GET">
-    <label>URL</label>
-    <br>
-    <input type="text" name="url" placeholder="insert url in here.." required>
-    <br>
-    <button type="submit">submit</button>
+    <div class=".form-inline">
+        <input class="url-text" id="url-text-shorten" type="text" name="url" placeholder="insert url in here.."
+               required>
+        <input class="url-button" id="url-button-shorten" type="button" value="Submit"/>
+    </div>
 </form>
-
-원래의 URL 찾기
+<br><br><span class="url-result" id="url-result-shorten">HERE</span>
+</p>
+<br>
+<p>
+<h1>Find original URL</h1>
 <form action="/original" method="GET">
-    <label>URL</label>
-    <br>
-    <input type="text" name="url" placeholder="insert url in here.." required>
-    <br>
-    <button type="submit">submit</button>
+    <div class=".form-inline">
+        <input class="url-text" id="url-text-original" type="text" name="url" placeholder="insert converted url in here.."
+               required>
+        <input class="url-button" id="url-button-original" type="button" value="Submit"/>
+    </div>
 </form>
+<br><br><span class="url-result" id="url-result-original">HERE</span>
 
-
+</p>
+<footer>
+    <hr/>
+    Developed by &nbsp Hanui Kim
+</footer>
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<!--ajax-->
+<script>
+
+    $("#url-text-shorten").on("click", function(){
+        $(this).select();
+    });
+
+    $("#url-text-original").on("click", function(){
+        $(this).select();
+    });
+
+    $("#url-button-shorten").on('click', function(event){
+        event.preventDefault();
+        if($("#url-text-shorten").val() == "") alert("Type url to convert");
+        else {
+            // console.log("shorten button clicked: " + $("#url-text-shorten").val());
+            $.ajax({
+                url: 'http://localhost:8080/shorten?url=' + $("#url-text-shorten").val(),
+                type: 'GET',
+            }).done((data, textStatus, jqXHR) => {
+                $("#url-result-shorten").text(data);
+            })
+        }
+    });
+    $("#url-button-original").on('click', function(event){
+        event.preventDefault();
+        if($("#url-text-original").val() == "") alert("Type url to convert");
+        else {
+            // console.log("original button clicked: " + $("#url-text-original").val());
+            $.ajax({
+                url: 'http://localhost:8080/original?url=' + $("#url-text-original").val(),
+                type: 'GET',
+            }).done((data, textStatus, jqXHR) => {
+                $("#url-result-original").text(data);
+            })
+        }
+    });
+</script>
